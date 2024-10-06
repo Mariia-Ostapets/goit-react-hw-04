@@ -18,6 +18,9 @@ export default function App() {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(16);
   const [totalResults, setTotalResults] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalImage, setModalImage] = useState("");
+  const [modalAlt, setModalAlt] = useState("");
 
   const accessKey = "siUPmXWQjsZUTmUZyL9qGwIni_jF-Fn8uFhv33R3JPg";
 
@@ -78,6 +81,16 @@ export default function App() {
 
   const canLoadMore = images.length < totalResults;
 
+  function openModal(url, alt) {
+    setModalImage(url);
+    setModalAlt(alt);
+    setIsModalOpen(true);
+  }
+
+  function closeModal() {
+    setIsModalOpen(false);
+  }
+
   return (
     <div>
       <SearchBar onSearch={handleSearch} />
@@ -89,7 +102,7 @@ export default function App() {
       ) : (
         images.length > 0 && (
           <>
-            <ImageGallery items={images} />
+            <ImageGallery items={images} onImageClick={openModal} />
             {!loading && canLoadMore && (
               <LoadMoreBtn onClick={loadMoreImages} />
             )}
@@ -97,7 +110,12 @@ export default function App() {
         )
       )}
       {loading && <Loader />}
-      <ImageModal />
+      <ImageModal
+        modalIsOpen={isModalOpen}
+        closeModal={closeModal}
+        modalImage={modalImage}
+        modalAlt={modalAlt}
+      />
     </div>
   );
 }

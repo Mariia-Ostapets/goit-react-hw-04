@@ -1,8 +1,9 @@
 import css from "./ImageCard.module.css";
 
 export default function ImageCard({
-  urls: { small, regular },
-  alt,
+  small,
+  regular,
+  altDescription,
   onModalOpen,
 }) {
   return (
@@ -10,7 +11,7 @@ export default function ImageCard({
       className={css.galleryImage}
       src={small}
       alt={altDescription}
-      onClick={() => onModalOpen(regular, alt)}
+      onClick={() => onModalOpen(regular, altDescription)}
     ></img>
   );
 }
